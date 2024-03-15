@@ -14,25 +14,19 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - run: |
+        mkdir ${{runner.temp}}/target
+        cp -r ${{inputs.publish_dir}}/* ${{runner.temp}}/target
+      shell: bash
     - uses: actions/checkout@v4
       with:
         repository: 'kne-union/static-data'
         ref: 'master'
         token: ${{ inputs.token }}
-        path: ./checkout-dir
-    - run: cp -r ${{inputs.publish_dir}} ./checkout-dir
-      shell: bash
     - run: |
-        cd ./checkout-dir
         rm -rf ./${{inputs.name}} && mkdir ./${{inputs.name}}
-        cp -r ${{inputs.publish_dir}}/* ./${{inputs.name}}
-        rm -rf ${{inputs.publish_dir}}
+        cp -r ${{runner.temp}}/target/* ./${{inputs.name}}
       shell: bash
-    - uses: actions-js/push@master
+    - uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: 'master'
-        directory: ./checkout-dir
-        github_token: ${{ inputs.token }}
-        force: true
-    - run: rm -rf ./checkout-dir
-      shell: bash
