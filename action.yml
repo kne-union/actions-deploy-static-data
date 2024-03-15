@@ -33,3 +33,6 @@ runs:
         branch: 'master'
         directory: ./checkout-dir
         github_token: ${{ inputs.token }}
+        force: true
+    - run: rm -rf ./checkout-dir
+      shell: bash
