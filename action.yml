@@ -1,5 +1,5 @@
-name: "Generate Ued manifest"
-description: "生成ued所需的所有所需描述文件并且推送至website项目"
+name: "Deploy Dir to Static Data"
+description: "将当前的一个目录复制到kne-union/static-data仓库的对应目录"
 inputs:
   token:
     description: 'Set a generated GITHUB_TOKEN for pushing to the remote branch.'
