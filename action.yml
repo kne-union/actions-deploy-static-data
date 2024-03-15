@@ -7,7 +7,7 @@ inputs:
   publish_dir:
     description: 'Set an output directory for deployment.'
     required: false
-    default: 'build'
+    default: ./build
   name:
     description: 'Set a part name.'
     required: true
