@@ -1,0 +1,29 @@
+name: "Generate Ued manifest"
+description: "生成ued所需的所有所需描述文件并且推送至website项目"
+inputs:
+  token:
+    description: 'Set a generated GITHUB_TOKEN for pushing to the remote branch.'
+    required: false
+  publish_dir:
+    description: 'Set an output directory for deployment.'
+    required: false
+    default: 'build'
+  name:
+    description: 'Set a part name.'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: 'kne-union/static-data'
+        ref: 'master'
+        token: ${{ inputs.token }}
+    - run: |
+        rm -rf ./${{inputs.name}} && mkdir ./${{inputs.name}}
+        cp -r ${{inputs.publish_dir}}/* ./${{inputs.name}}
+        rm -rf ${{inputs.publish_dir}}
+      shell: bash
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: 'master'
