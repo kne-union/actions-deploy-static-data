@@ -1,5 +1,5 @@
 name: "Deploy Dir to Static Data"
-description: "将当前的一个目录复制到kne-union/static-data仓库的对应目录"
+description: "将当前的一个目录复制到另一个仓库的对应目录，默认为kne-union/static-data"
 inputs:
   token:
     description: 'Set a generated GITHUB_TOKEN for pushing to the remote branch.'
@@ -8,9 +8,21 @@ inputs:
     description: 'Set an output directory for deployment.'
     required: false
     default: ./build
+  publish_branch:
+    description: 'Set an output git branch.'
+    required: false
+    default: 'master'
   name:
     description: 'Set a part name.'
     required: true
+  repository:
+    description: 'github repository'
+    required: false
+    default: 'kne-union/static-data'
+  branch:
+    description: 'github branch'
+    required: false
+    default: 'master'
 runs:
   using: 'composite'
   steps:
@@ -20,8 +32,8 @@ runs:
       shell: bash
     - uses: actions/checkout@v4
       with:
-        repository: 'kne-union/static-data'
-        ref: 'master'
+        repository: ${{ inputs.repository }}
+        ref: ${{ inputs.branch }}
         token: ${{ inputs.token }}
     - run: |
         rm -rf ./${{inputs.name}} && mkdir ./${{inputs.name}}
@@ -29,4 +41,4 @@ runs:
       shell: bash
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: 'master'
+        branch: ${{ inputs.publish_branch }}
