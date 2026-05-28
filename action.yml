@@ -30,7 +30,7 @@ runs:
         mkdir ${{runner.temp}}/target
         cp -r ${{inputs.publish_dir}}/* ${{runner.temp}}/target
       shell: bash
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.branch }}
@@ -39,6 +39,6 @@ runs:
         rm -rf ./${{inputs.name}} && mkdir ./${{inputs.name}}
         cp -r ${{runner.temp}}/target/* ./${{inputs.name}}
       shell: bash
-    - uses: stefanzweifel/git-auto-commit-action@v5
+    - uses: stefanzweifel/git-auto-commit-action@v7
       with:
         branch: ${{ inputs.publish_branch }}
